@@ -13,42 +13,59 @@ import chess.ChessPosition;
 public class Program {
 
 	public static void main(String[] args) {
-		
+		String escolha;
 		Scanner sc = new Scanner(System.in);
-		ChessMatch chessMatch = new ChessMatch();
-		List<ChessPiece> captured = new ArrayList<>();
+		UI.clearScreen();
+		System.out.println("1 - Iniciar jogo");
+		System.out.println("");
+		System.out.println("2 - Ranking");
 		
-		while(true) {
-			try {
-				UI.clearScreen();
-				UI.printMatch(chessMatch, captured);
-				System.out.println();
-				System.out.print("Posicao de Origem: ");
-				ChessPosition source = UI.readChessPosition(sc);
-				
-				boolean[][] possibleMoves = chessMatch.possibleMoves(source);
-				UI.clearScreen();
-				UI.printBoard(chessMatch.getPieces(), possibleMoves);
-				System.out.println();
-				System.out.print("Posicao de Destino: ");
-				ChessPosition target = UI.readChessPosition(sc);
-				
-				ChessPiece capturedPiece = chessMatch.performChessMove(source, target);
-				
-				if(capturedPiece != null) {
-					captured.add(capturedPiece);
+		System.out.print("Digite a opcao desejada:");
+		escolha = sc.nextLine();
+		
+		if(escolha.equals("1")){
+		
+			ChessMatch chessMatch = new ChessMatch();
+			List<ChessPiece> captured = new ArrayList<>();
+			
+			while(true) {
+				try {
+					UI.clearScreen();
+					UI.printMatch(chessMatch, captured);
+					System.out.println();
+					System.out.print("Posicao de Origem: ");
+					ChessPosition source = UI.readChessPosition(sc);
+					
+					boolean[][] possibleMoves = chessMatch.possibleMoves(source);
+					UI.clearScreen();
+					UI.printBoard(chessMatch.getPieces(), possibleMoves);
+					System.out.println();
+					System.out.print("Posicao de Destino: ");
+					ChessPosition target = UI.readChessPosition(sc);
+					
+					ChessPiece capturedPiece = chessMatch.performChessMove(source, target);
+					
+					if(capturedPiece != null) {
+						captured.add(capturedPiece);
+					}
+				}
+				catch(ChessException e) {
+					System.out.println(e.getMessage());
+					sc.nextLine();
+				}
+				catch(InputMismatchException e) {
+					System.out.println(e.getMessage());
+					sc.nextLine();
 				}
 			}
-			catch(ChessException e) {
-				System.out.println(e.getMessage());
-				sc.nextLine();
-			}
-			catch(InputMismatchException e) {
-				System.out.println(e.getMessage());
-				sc.nextLine();
-			}
+		}
+		else if(escolha.equals("2")) {
+			System.out.println("Ranking nao implementado");
 		}
 		
+		else {
+			System.out.println("Opção Invalida");
+		}
 	}
 
 }
