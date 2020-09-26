@@ -24,7 +24,7 @@ public class ChessMatch {
 	public ChessMatch() {
 		board = new Board (8,8);
 		turn = 1;
-		currentPlayer = Color.WHITE;
+		currentPlayer = Color.BRANCO;
 		initialSetup();
 	}
 	
@@ -128,11 +128,11 @@ public class ChessMatch {
 	
 	private void nextTurn() {
 		turn++;
-		currentPlayer = (currentPlayer == Color.WHITE) ? Color.BLACK : Color.WHITE;
+		currentPlayer = (currentPlayer == Color.BRANCO) ? Color.PRETO : Color.BRANCO;
 	}
 	
 	private Color opponent(Color color) {
-		return (color == Color.WHITE) ? Color.BLACK : Color.WHITE;
+		return (color == Color.BRANCO) ? Color.PRETO : Color.BRANCO;
 	}
 	
 	private ChessPiece king(Color color) {
@@ -189,11 +189,11 @@ public class ChessMatch {
 	
 	
 	private void initialSetup() {
-		placeNewPiece('h', 7, new Rook(board, Color.WHITE));
-        placeNewPiece('d', 1, new Rook(board, Color.WHITE));
-        placeNewPiece('e', 1, new King(board, Color.WHITE));
+		placeNewPiece('h', 7, new Rook(board, Color.BRANCO));
+        placeNewPiece('d', 1, new Rook(board, Color.BRANCO));
+        placeNewPiece('e', 1, new King(board, Color.BRANCO));
 
-        placeNewPiece('b', 8, new Rook(board, Color.BLACK));
-        placeNewPiece('a', 8, new King(board, Color.BLACK));
+        placeNewPiece('b', 8, new Rook(board, Color.PRETO));
+        placeNewPiece('a', 8, new King(board, Color.PRETO));
 	}
 }

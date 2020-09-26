@@ -23,7 +23,7 @@ public class Program {
 		
 		System.out.print("Digite a opcao desejada:");
 		escolha = sc.nextLine();
-		
+		UI.clearScreen();
 		if(escolha.equals("1")){
 		
 			ChessMatch chessMatch = new ChessMatch();
