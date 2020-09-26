@@ -16,9 +16,10 @@ public class Program {
 		String escolha;
 		Scanner sc = new Scanner(System.in);
 		UI.clearScreen();
-		System.out.println("1 - Iniciar jogo");
+		System.out.println("-----Menu Principal-----");
+		System.out.println("   1 - Iniciar jogo");
 		System.out.println("");
-		System.out.println("2 - Ranking");
+		System.out.println("   2 - Ranking");
 		
 		System.out.print("Digite a opcao desejada:");
 		escolha = sc.nextLine();
@@ -28,7 +29,7 @@ public class Program {
 			ChessMatch chessMatch = new ChessMatch();
 			List<ChessPiece> captured = new ArrayList<>();
 			
-			while(true) {
+			while(!chessMatch.getCheckMate()) {
 				try {
 					UI.clearScreen();
 					UI.printMatch(chessMatch, captured);
@@ -58,13 +59,15 @@ public class Program {
 					sc.nextLine();
 				}
 			}
+			UI.clearScreen();
+			UI.printMatch(chessMatch, captured);
 		}
 		else if(escolha.equals("2")) {
 			System.out.println("Ranking nao implementado");
 		}
 		
 		else {
-			System.out.println("Opção Invalida");
+			System.out.println("Opcao Invalida");
 		}
 	}
 
