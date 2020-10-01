@@ -16,6 +16,7 @@ public class ChessMatch {
 	private Board board;
 	private boolean check;
 	private boolean checkMate;
+
 	
 	
 	private List<Piece> piecesOnTheBoard = new ArrayList<>();
@@ -33,7 +34,9 @@ public class ChessMatch {
 	}
 	
 	public Color getCurrentPlayer() {
+
 		return currentPlayer;
+		
 	}
 	
 	public boolean getCheck() {

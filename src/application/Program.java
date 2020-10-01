@@ -25,7 +25,14 @@ public class Program {
 		escolha = sc.nextLine();
 		UI.clearScreen();
 		if(escolha.equals("1")){
-		
+			
+			UI.clearScreen();
+			System.out.print("Nome do Jogador das pecas brancas:");
+			UI.jogador1  = sc.nextLine();
+			System.out.println("");
+			System.out.print("Nome do Jogador das pecas pretas");
+			UI.jogador2 = sc.nextLine();
+			UI.clearScreen();
 			ChessMatch chessMatch = new ChessMatch();
 			List<ChessPiece> captured = new ArrayList<>();
 			

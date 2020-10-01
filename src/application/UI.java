@@ -12,7 +12,9 @@ import chess.ChessPosition;
 import chess.Color;
 
 public class UI {
-	
+	static String ganhador;
+	public static String jogador1; 
+	public static String jogador2; 
 	// https://stackoverflow.com/questions/5762491/how-to-print-color-in-console-using-system-out-println
 
 	public static final String ANSI_RESET = "\u001B[0m";
@@ -66,7 +68,12 @@ public class UI {
 		}else {
 			System.out.println("");
 			System.out.println("CHECKMATE!!!");
-			System.out.println("O ganhador e: "+chessMatch.getCurrentPlayer());
+			if(chessMatch.getCurrentPlayer() == Color.BRANCO) {
+				ganhador=jogador1;
+			}else {
+				ganhador=jogador2;
+			}
+			System.out.println("O ganhador e: "+ganhador);
 		}
 
 	}
