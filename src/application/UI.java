@@ -1,5 +1,10 @@
 package application;
 
+import java.io.BufferedReader;
+import java.io.BufferedWriter;
+import java.io.FileReader;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.util.Arrays;
 import java.util.InputMismatchException;
 import java.util.List;
@@ -13,8 +18,8 @@ import chess.Color;
 
 public class UI {
 	static String ganhador;
-	public static String jogador1; 
-	public static String jogador2; 
+	public static String player1; 
+	public static String player2; 
 	// https://stackoverflow.com/questions/5762491/how-to-print-color-in-console-using-system-out-println
 
 	public static final String ANSI_RESET = "\u001B[0m";
@@ -69,13 +74,42 @@ public class UI {
 			System.out.println("");
 			System.out.println("CHECKMATE!!!");
 			if(chessMatch.getCurrentPlayer() == Color.BRANCO) {
-				ganhador=jogador1;
+				ganhador=player1;
 			}else {
-				ganhador=jogador2;
+				ganhador=player2;
 			}
+				String[] lines = new String[] { /*"Player1			Player2			Ganhador",*/player1+"			"+player2+"			"+ganhador}; // colando valores em um vetor de string
+				String path = "C:\\files\\teste2.txt"; // caminho do arquivo que receber� o conte�do que ser� escrito
+				try (BufferedWriter bw = new BufferedWriter(new FileWriter(path,true))) { // cria o arquivo se nao existir e grava o
+																						// novo conteudo --- para continuar a
+																						// gravacao no arquivo passa o argumento
+																						// "true" em FileWriter ficando
+																						// FileWriter(path,true)
+					for (String line : lines) { // para gravar cada item (line) do vetor (lines)
+						bw.write(line);
+						bw.newLine();
+					}
+				} catch (IOException e) { // tratando excecao
+					e.printStackTrace();
+				}
+	
+			
 			System.out.println("O ganhador e: "+ganhador);
 		}
 
+	}
+	
+	public static void printRanking() {
+		String path = "C:\\files\\teste2.txt";
+		try (BufferedReader br = new BufferedReader(new FileReader(path))) { // forma otimizada para ler o arquivo pela classe filereader
+			String line = br.readLine();
+			while (line != null) {
+				System.out.println(line);
+				line = br.readLine();
+			}
+		} catch (IOException e) {
+			System.out.println("Error: " + e.getMessage());
+		}
 	}
 
 	public static void printBoard(ChessPiece[][] pieces) {

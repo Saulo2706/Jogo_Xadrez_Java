@@ -28,10 +28,10 @@ public class Program {
 			
 			UI.clearScreen();
 			System.out.print("Nome do Jogador das pecas brancas:");
-			UI.jogador1  = sc.nextLine();
+			UI.player1  = sc.nextLine();
 			System.out.println("");
 			System.out.print("Nome do Jogador das pecas pretas");
-			UI.jogador2 = sc.nextLine();
+			UI.player2 = sc.nextLine();
 			UI.clearScreen();
 			ChessMatch chessMatch = new ChessMatch();
 			List<ChessPiece> captured = new ArrayList<>();
@@ -70,7 +70,8 @@ public class Program {
 			UI.printMatch(chessMatch, captured);
 		}
 		else if(escolha.equals("2")) {
-			System.out.println("Ranking nao implementado");
+			UI.clearScreen();
+			UI.printRanking();
 		}
 		
 		else {
