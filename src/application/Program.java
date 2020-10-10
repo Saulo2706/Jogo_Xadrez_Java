@@ -3,6 +3,7 @@ package application;
 import java.util.ArrayList;
 import java.util.InputMismatchException;
 import java.util.List;
+import java.util.Locale;
 import java.util.Scanner;
 
 import chess.ChessException;
@@ -27,10 +28,10 @@ public class Program {
 		if(escolha.equals("1")){
 			
 			UI.clearScreen();
-			System.out.print("Nome do Jogador das pecas brancas:");
+			System.out.print("Nome do Jogador das peças brancas:");
 			UI.player1  = sc.nextLine();
 			System.out.println("");
-			System.out.print("Nome do Jogador das pecas pretas");
+			System.out.print("Nome do Jogador das peças pretas:");
 			UI.player2 = sc.nextLine();
 			UI.clearScreen();
 			ChessMatch chessMatch = new ChessMatch();
