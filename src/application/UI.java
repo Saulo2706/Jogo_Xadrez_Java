@@ -77,9 +77,9 @@ public class UI {
 				ganhador=player1;
 			}else {
 				ganhador=player2;
-			}
+			}//ESCRITA EM ARQUIVO
 				String[] lines = new String[] {player1+"			"+player2+"			"+ganhador}; // colando valores em um vetor de string
-				String path = "rank.txt"; // caminho do arquivo que receber� o conte�do que ser� escrito
+				String path = "../bin/rank.txt"; // caminho do arquivo que receber� o conte�do que ser� escrito
 				try (BufferedWriter bw = new BufferedWriter(new FileWriter(path,true))) { // cria o arquivo se nao existir e grava o
 																						// novo conteudo --- para continuar a
 																						// gravacao no arquivo passa o argumento
@@ -99,8 +99,8 @@ public class UI {
 
 	}
 	
-	public static void printRanking() {
-		String path = "rank.txt";
+	public static void printRanking() {//LEITURA EM ARQUIVO
+		String path = "../bin/rank.txt";
 		try (BufferedReader br = new BufferedReader(new FileReader(path))) { // forma otimizada para ler o arquivo pela classe filereader
 			String line = br.readLine();
 			System.out.println("Player1			Player2			Ganhador");

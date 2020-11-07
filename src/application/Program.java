@@ -14,6 +14,7 @@ import chess.ChessPosition;
 public class Program {
 
 	public static void main(String[] args) {
+		Locale.setDefault(Locale.US);
 		String escolha;
 		Scanner sc = new Scanner(System.in);
 		UI.clearScreen();
@@ -28,10 +29,10 @@ public class Program {
 		if(escolha.equals("1")){
 			
 			UI.clearScreen();
-			System.out.print("Nome do Jogador das peças brancas:");
+			System.out.print("Nome do Jogador das pecas brancas:");
 			UI.player1  = sc.nextLine();
 			System.out.println("");
-			System.out.print("Nome do Jogador das peças pretas:");
+			System.out.print("Nome do Jogador das pecas pretas:");
 			UI.player2 = sc.nextLine();
 			UI.clearScreen();
 			ChessMatch chessMatch = new ChessMatch();
