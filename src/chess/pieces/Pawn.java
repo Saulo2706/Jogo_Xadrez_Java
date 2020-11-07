@@ -51,7 +51,7 @@ public class Pawn extends ChessPiece {
             }
             //verificar se pode ir duas casas para frente no primeiro movimento dela
             p.setValues(position.getRow()+2, position.getColumn());
-            Position p2 = new Position(position.getRow()-1, position.getColumn());
+            Position p2 = new Position(position.getRow()+1, position.getColumn());
             //verificar se o peão pode ir para lá, testando se existe, se esta vazia e se a quantidade de movimentos da peça for =0
             if(getBoard().positionExists(p) && !getBoard().thereIsAPiece(p) && getBoard().positionExists(p2) && !getBoard().thereIsAPiece(p2) && getMoveCount() == 0){
                 mat[p.getRow()][p.getColumn()] = true;
