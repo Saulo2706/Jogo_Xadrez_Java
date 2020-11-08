@@ -1,5 +1,6 @@
 package chess;
 
+import java.security.InvalidParameterException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -21,6 +22,7 @@ public class ChessMatch {
 	private boolean check;
 	private boolean checkMate;
 	private ChessPiece enPassantVulnerable;
+	private ChessPiece promoted;
 
 	
 	
@@ -56,6 +58,10 @@ public class ChessMatch {
 		return enPassantVulnerable;
 	}
 	
+	public ChessPiece getPromoted(){
+		return promoted;
+	}
+
 	public ChessPiece [][] getPieces(){
 		ChessPiece[][] mat = new ChessPiece [board.getRows()][board.getColumns()];
 		for(int i=0; i<board.getRows(); i++) {
@@ -71,6 +77,32 @@ public class ChessMatch {
 		validateSourcePosition(position);
 		return board.piece(position).possibleMoves();
 	}
+
+	public ChessPiece replacePromotedPiece(String type){
+		if(promoted == null){
+			throw new IllegalStateException("Nao existe peca para ser promovida!");
+		}
+		if(!type.equals("B") && !type.equals("C") && !type.equals("T") && !type.equals("Q")){
+			throw new InvalidParameterException("Tipo de peça invalida para promocao!");
+		}
+
+		Position pos = promoted.getChessPosition().toPosition();
+		Piece p = board.removePiece(pos);
+		piecesOnTheBoard.remove(p);
+
+		ChessPiece newPiece = newPiece(type, promoted.getColor());
+		board.placePiece(newPiece, pos);
+		piecesOnTheBoard.add(newPiece);
+
+		return newPiece;
+	}
+
+	private ChessPiece newPiece(String type, Color color){
+		if(type.equals("B")) return new Bishop(board, color);
+		if(type.equals("C")) return new Knigth(board, color);
+		if(type.equals("Q")) return new Queen(board, color);
+		return new Rook(board, color);
+	}
 	
 	public ChessPiece performChessMove(ChessPosition sourcePosition, ChessPosition targetPosition) {
 		Position source = sourcePosition.toPosition();
@@ -85,6 +117,16 @@ public class ChessMatch {
 		}
 		
 		ChessPiece movedPiece = (ChessPiece)board.piece(target);
+
+		//Promoção
+		promoted = null;
+		if(movedPiece instanceof Pawn){
+			if((movedPiece.getColor() == Color.BRANCO) && (target.getRow() == 0) || (movedPiece.getColor() == Color.PRETO) && (target.getRow() == 7)){
+				promoted = (ChessPiece)board.piece(target);
+				promoted = replacePromotedPiece("Q");
+			}
+		}
+
 
 		check = (testCheck(opponent(currentPlayer))) ? true : false;
 		
