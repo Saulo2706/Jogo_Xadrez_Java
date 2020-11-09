@@ -5,12 +5,15 @@ import java.io.BufferedWriter;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.InputMismatchException;
 import java.util.List;
+import java.util.Locale;
 import java.util.Scanner;
 import java.util.stream.Collectors;
 
+import chess.ChessException;
 import chess.ChessMatch;
 import chess.ChessPiece;
 import chess.ChessPosition;
@@ -59,6 +62,106 @@ public class UI {
 		}
 
 	}
+
+	public static void menu(){
+		Locale.setDefault(Locale.US);
+		String escolha;
+		Scanner sc = new Scanner(System.in);
+		UI.clearScreen();
+		System.out.println(ANSI_YELLOW+"******************************"+ANSI_RESET+"********************************");
+		System.out.println("                     -----Chess"+ANSI_YELLOW+"Game-----                  "+ ANSI_RESET);
+		System.out.println("******************************"+ANSI_YELLOW+"********************************"+ ANSI_RESET);
+		
+		System.out.println(ANSI_YELLOW+"                       1 - Iniciar jogo"+ANSI_RESET);
+		System.out.println("");
+		System.out.println("                       2 - Ranking");
+		System.out.println("");
+		System.out.println(ANSI_YELLOW+"                       3 - Indice de pecas"+ANSI_RESET);
+		System.out.println("");
+		System.out.print("                       Digite a opcao desejada:");
+		escolha = sc.nextLine();
+
+		UI.clearScreen();
+		if(escolha.equals("1")){
+			
+			UI.clearScreen();
+			System.out.print("Nome do Jogador das pecas brancas:");
+			UI.player1  = sc.nextLine();
+			System.out.println("");
+			System.out.print(ANSI_YELLOW+"Nome do Jogador das pecas pretas:"+ANSI_RESET);
+			UI.player2 = sc.nextLine();
+			UI.clearScreen();
+			ChessMatch chessMatch = new ChessMatch();
+			List<ChessPiece> captured = new ArrayList<>();
+			
+			while(!chessMatch.getCheckMate()) {
+				try {
+					UI.clearScreen();
+					UI.printMatch(chessMatch, captured);
+					System.out.println();
+					System.out.print("Posicao de Origem: ");
+					ChessPosition source = UI.readChessPosition(sc);
+					
+					boolean[][] possibleMoves = chessMatch.possibleMoves(source);
+					UI.clearScreen();
+					UI.printBoard(chessMatch.getPieces(), possibleMoves);
+					System.out.println();
+					System.out.print("Posicao de Destino: ");
+					ChessPosition target = UI.readChessPosition(sc);
+					
+					ChessPiece capturedPiece = chessMatch.performChessMove(source, target);
+					
+					if(capturedPiece != null) {
+						captured.add(capturedPiece);
+					}
+
+					if(chessMatch.getPromoted() != null){
+						System.out.print("Entre com a peca para a promocao (B/C/T/Q): ");
+						String type = sc.nextLine().toUpperCase();
+						while(!type.equals("B") && !type.equals("C") && !type.equals("T") && !type.equals("Q")){
+							System.out.print("Valor Invalido!! Entre novamente com a peca para a promocao (B/C/T/Q): ");
+							type = sc.nextLine().toUpperCase();
+						}
+						chessMatch.replacePromotedPiece(type);
+					}
+				}
+				catch(ChessException e) {
+					System.out.println(e.getMessage());
+					sc.nextLine();
+				}
+				catch(InputMismatchException e) {
+					System.out.println(e.getMessage());
+					sc.nextLine();
+				}
+			}
+			UI.clearScreen();
+			UI.printMatch(chessMatch, captured);
+		}
+		else if(escolha.equals("2")) {
+			UI.clearScreen();
+			UI.printRanking();
+		}
+
+		else if(escolha.equals("3")) {
+			System.out.println(ANSI_YELLOW+"Peca      -     Letra"+ANSI_RESET);
+			System.out.println("");
+			System.out.println("Bispo     -      B");
+			System.out.println("Cavalo    -      C");
+			System.out.println("Torre     -      T");
+			System.out.println("Peao      -      P");
+			System.out.println("Rainha    -      Q");
+			System.out.println("Rei       -      R");
+			System.out.println();
+			System.out.print("Para voltar ao menu precione enter...");
+			escolha = sc.nextLine();
+			menu();
+		}
+		
+		else {
+			System.out.println("Opcao Invalida");
+			menu();
+		}
+	}
 	
 	public static void printMatch(ChessMatch chessMatch, List<ChessPiece> captured) {
 		printBoard(chessMatch.getPieces());
@@ -100,14 +203,21 @@ public class UI {
 	}
 	
 	public static void printRanking() {//LEITURA EM ARQUIVO
+		String escolha;
+		Scanner sc = new Scanner(System.in);
 		String path = "../bin/rank.txt";
 		try (BufferedReader br = new BufferedReader(new FileReader(path))) { // forma otimizada para ler o arquivo pela classe filereader
 			String line = br.readLine();
-			System.out.println("Player1			Player2			Ganhador");
+			System.out.println("Player1		"+ANSI_YELLOW+"	Player2"+ANSI_GREEN+"			Ganhador"+ANSI_RESET);
 			while (line != null) {
 				System.out.println(line);
 				line = br.readLine();
 			}
+			System.out.println();
+			System.out.print("Para voltar ao menu precione enter...");
+			escolha = sc.nextLine();
+			menu();
+			
 		} catch (IOException e) {
 			System.out.println("Error: " + e.getMessage());
 		}
